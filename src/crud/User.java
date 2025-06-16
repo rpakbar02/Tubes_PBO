@@ -1,5 +1,6 @@
 package crud;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class User {
         projects = new ArrayList<>();
     }
 
-    public void updateProfile(){
+    public void updateProfile() throws IOException{
         System.out.println("Choose what you want to update:\n1. Username\n2. Email\n3. Password\n4. Exit");
         Scanner input = new Scanner(System.in);
         int choice = input.nextInt();
@@ -48,6 +49,7 @@ public class User {
                 System.out.println("Invalid choice. Please try again.");
                 updateProfile();
         }
+        Database.writeUserData(Database.getUserList());
     }
 
     public void viewProfile(){

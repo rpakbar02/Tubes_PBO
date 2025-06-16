@@ -65,14 +65,12 @@ public class Task {
             }
             System.out.print("Enter the number of the subtask (0 for exit): ");
             choice = input.nextInt();
-            System.out.println("aman");
             if(choice == 0) break;
-            System.out.println("aman");
             card.add(this.cards.get(choice - 1));
         }
+        System.out.println("ks");
         Workload workload = new Workload(user, card);
         workloads.add(workload);
-        input.close();
     }
 
     public void addReport(ProgressReport report) {
@@ -92,7 +90,6 @@ public class Task {
         System.out.print("Which subtask do you want to view: ");
         int choice = input.nextInt();
         cards.get(choice - 1).viewSubtask();
-        input.close();
     }
 
     public void viewReport(){
@@ -104,7 +101,6 @@ public class Task {
         System.out.print("Who's report do you want to view: ");
         int choice = input.nextInt();
         reports.get(choice - 1).viewReport();
-        input.close();
     }
 
     public void viewWorkload(){
@@ -116,7 +112,6 @@ public class Task {
         System.out.print("Who's workload do you want to view: ");
         int choice = input.nextInt();
         workloads.get(choice - 1).viewWorkload();
-        input.close();
     }
 
     public void setName(String name) {
