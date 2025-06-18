@@ -53,6 +53,35 @@ public class Task {
         cards.add(card);
     }
 
+    public void viewTask(){
+        System.out.println("1. Add Subtask\n2. View Subtask\n3. View Report\n4. View Workload\n5. Exit");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+        switch (choice) {
+            case 1:
+                addSubtask();
+                viewTask();
+                break;
+            case 2:
+                viewSubtask();
+                viewTask();
+                break;
+            case 3:
+                viewReport();
+                viewTask();
+                break;
+            case 4:
+                viewWorkload();
+                viewTask();
+                break;
+            case 5:
+                System.out.println("Exiting...");
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                viewTask();
+        }
+    }
 
     public void addWorkload(User user, ArrayList<Subtask> cards) {
         Scanner input = new Scanner(System.in);

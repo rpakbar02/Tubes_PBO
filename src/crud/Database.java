@@ -5,9 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import project.Project;
 
 public class Database {
     private static ArrayList<User> userList = new ArrayList();
+    private static ArrayList<Project> projectList = new ArrayList();
 
     public static void addUser(User user){
         userList.add(user);
@@ -59,7 +61,7 @@ public class Database {
 
     public static void writeUserData(ArrayList<User> userList) throws IOException{
         try {
-            FileWriter fileWriter = new FileWriter("Tubes_PBOs\\src\\DataBase\\users.txt");
+            FileWriter fileWriter = new FileWriter("src\\DataBase\\users.txt");
             for (User user : userList) {
                 fileWriter.write(user.getUsername() + "," + user.getEmail() + "," + user.getPassword() + "," + user.getRole().getRole() + "\n");
             }
@@ -75,37 +77,47 @@ public class Database {
         Role member = new Member();
         FileReader fr = null;
         try {
-            fr = new FileReader("Tubes_PBOs\\src\\DataBase\\users.txt");
+            fr = new FileReader("src\\DataBase\\users.txt");
         }catch (IOException e) {
             System.out.println(e.getMessage());
         }
         int ch;
         int i = 0;
+        int j = 0;
         String username = "";
         String email = "";
         String password = "";
         String role = "";
-        userList.clear();
         while((ch = fr.read()) != -1) {
             if(ch == ',' || ch == '\n'){
                 i++;
                 if(i == 4){
                     if(role.equals("Admin")) {
-                        User user = new User(username, email, password, admin);
-                        userList.add(user);
+                        User user = userList.get(j);
+                        user.setUsername(username);
+                        user.setEmail(email);
+                        user.setPassword(password);
+                        user.setRole(admin);
                     }
                     else if(role.equals("Manager")) {
-                        User user = new User(username, email, password, manager);
-                        userList.add(user);
+                        User user = userList.get(j);
+                        user.setUsername(username);
+                        user.setEmail(email);
+                        user.setPassword(password);
+                        user.setRole(manager);
                     }
                     else if(role.equals("Member")) {
-                        User user = new User(username, email, password, member);
-                        userList.add(user);
+                        User user = userList.get(j);
+                        user.setUsername(username);
+                        user.setEmail(email);
+                        user.setPassword(password);
+                        user.setRole(member);
                     }
                     username = "";
                     email = "";
                     password = "";
                     role = "";
+                    j++;
                 }
                 i %= 4;
             }
@@ -133,4 +145,20 @@ public class Database {
     public static ArrayList<User> getUserList() {
         return userList;
     }
+
+    // public static void writeProjectData(ArrayList<Project> projectList) throws IOException{
+    //     try {
+    //         FileWriter fileWriter = new FileWriter("Tubes_PBOs\\src\\DataBase\\projects.txt");
+    //         for (Project project : projectList) {
+    //             fileWriter.write(project.getName() + "," + project.getDescription() + "," + project.getCreationDate() + "," + project.getDeadline() + ",");
+    //             for (User user : project.getInvolvedMembers()) {
+    //                 fileWriter.write(user.getUsername() + "/");
+    //             }
+    //             fileWriter.write("\n");
+    //         }
+    //         fileWriter.close();
+    //     } catch (IOException e) {
+    //         System.out.println(e.getMessage());
+    //     }
+    // }
 }

@@ -25,8 +25,8 @@ public class Manager extends Role {
         int choice = input.nextInt();
         Project proj = project.get(choice - 1);
         int option = 0;
-        while(option != 6){
-            System.out.println("1. Update Title\n2. Update Description\n3. Add Task\n4. Add Subtask\n5. Assign Workload\n6. Exit");
+        while(option != 7){
+            System.out.println("1. Update Title\n2. Update Description\n3. View Project\n4. Add Task\n5. Add Subtask\n6. Assign Workload\n7. Exit");
             option = input.nextInt();
             switch(option){
                 case 1:
@@ -40,10 +40,30 @@ public class Manager extends Role {
                     proj.setDescription(description);
                     break;
                 case 3:
+                    proj.showData();
+                    System.out.println("1. Manage task\n2. Exit");
+                    int pilihan = input.nextInt();
+                    while(pilihan != 1 && pilihan != 2){
+                        switch (pilihan) {
+                            case 1:
+                                System.out.println("Please choose a task to view: ");
+                                for(int i = 0; i < proj.getTaskList().size(); i++) System.out.println((i + 1) + ". " + proj.getTaskList().get(i).getName());
+                                int taskChoice = input.nextInt();
+                                proj.getTaskList().get(pilihan - 1).viewTask();
+                                break;
+                            case 2:
+                                System.out.println("Exiting...");
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                        }
+                    }
+                    break;
+                case 4:
                     proj.addTask();
                     System.out.println("Task added successfully!");
                     break;
-                case 4:
+                case 5:
                     System.out.println("Choose the task you want to add a subtask to: ");
                     for(int i = 0; i < proj.getTaskList().size(); i++){
                         System.out.println(i + 1 + ". " + proj.getTaskList().get(i).getName());
@@ -53,7 +73,7 @@ public class Manager extends Role {
                     proj.getTaskList().get(taskChoice - 1).addSubtask();
                     System.out.println("Subtask added successfully!");
                     break;
-                case 5:
+                case 6:
                     System.out.println("Choose the task you want to assign workload to: ");
                     for(int i = 0; i < proj.getTaskList().size(); i++){
                         System.out.println(i + 1 + ". " + proj.getTaskList().get(i).getName());
@@ -69,7 +89,7 @@ public class Manager extends Role {
                     proj.getTaskList().get(taskChoice2 - 1).addWorkload(proj.getInvolvedMembers().get(memberChoice - 1), proj.getTaskList().get(taskChoice2 - 1).getCards());
                     System.out.println("Workload assigned successfully!");
                     break;
-                case 6:
+                case 7:
                     System.out.println("Exiting...");
                     break;
             }

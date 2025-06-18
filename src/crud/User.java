@@ -1,5 +1,6 @@
 package crud;
 
+import exception.DeadlineIsBeforeCreation;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -62,13 +63,25 @@ public class User {
         }
     }
 
-    public void viewProject(Project project){
-        System.out.println("Name: " + project.getName());
-        System.out.println("Description: " + project.getDescription());
-        System.out.println("Created date: " + project.getCreationDate());
-        System.out.println("Deadline: " + project.getDeadline());
-        project.showInvolvedMembers();
-        project.showTasks();
+    public void viewProject(Project proj){
+        proj.showData();
+        System.out.println("1. Manage task\n2. Exit");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+        switch (choice) {
+            case 1:
+                System.out.println("Please choose a task to view: ");
+                for(int i = 0; i < proj.getTaskList().size(); i++) System.out.println((i + 1) + ". " + proj.getTaskList().get(i).getName());
+                int taskChoice = input.nextInt();
+                proj.getTaskList().get(choice - 1).viewTask();
+                break;
+            case 2:
+                System.out.println("Exiting...");
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                viewProject(proj);
+        }
     }
 
     public void addProject(Project project){
@@ -87,9 +100,18 @@ public class User {
         String description = input.nextLine();
         LocalDate creationDate = LocalDate.now();
         System.out.print("Enter project deadline (DD-MM-YYYY): ");
-        LocalDate deadline = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        Project project = new Project(name, description, creationDate, deadline);
-        project.addMember(this, project);
+        boolean safe = true;
+        while(safe){
+            try {
+                LocalDate deadline = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                if(deadline.isBefore(creationDate)) throw new DeadlineIsBeforeCreation();
+                Project project = new Project(name, description, creationDate, deadline);
+                project.addMember(this, project);
+            } catch (DeadlineIsBeforeCreation e) {
+                safe = e.isError();
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public UUID getId() {

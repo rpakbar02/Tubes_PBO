@@ -1,6 +1,9 @@
 package project;
 
 import crud.User;
+import exception.DeadlineIsBeforeCreation;
+import exception.MemberIsAlreadyInProject;
+import exception.MemberNotFound;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,21 +36,73 @@ public class Project {
         System.out.print("Masukkan deskripsi task: ");
         String taskDescription = input.nextLine();
         System.out.print("Masukkan deadline task (DD-MM-YYYY): ");
-        LocalDate deadline = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        Task task = new Task(taskName, taskDescription, deadline);
-        taskList.add(task);
+        boolean safe = true;
+        while(safe){
+            try {
+                LocalDate deadline = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                if(deadline.isBefore(creationDate)) throw new DeadlineIsBeforeCreation();
+                Task task = new Task(taskName, taskDescription, deadline);
+                taskList.add(task);
+            } catch (DeadlineIsBeforeCreation e) {
+                safe = e.isError();
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public void addMember(User user, Project project) {
-        involvedMembers.add(user);
-        user.addProject(project);
+        try{
+            for(User member : involvedMembers){
+                if(member.getUsername().equals(user.getUsername())) throw new MemberIsAlreadyInProject();
+            }
+            involvedMembers.add(user);
+            user.addProject(project);
+            System.out.println(user.getUsername() + " has been added to " + project.getName());
+        }catch(MemberIsAlreadyInProject e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void removeMember(User user, Project project) {
-        involvedMembers.remove(user);
-        user.removeProject(project);
+        try{
+            boolean found = false;
+            for(User member : involvedMembers){
+                if(member.getUsername().equals(user.getUsername())) found = true;
+            }
+            if(!found) throw new MemberNotFound();
+            involvedMembers.remove(user);
+            user.removeProject(project);
+            System.out.println(user.getUsername() + " has been removed from " + project.getName());
+        }catch(MemberNotFound e){
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void showInvolvedMembers(){
+        System.out.println("Members: ");
+        for (User member : involvedMembers) {
+            System.out.println("1. " + member.getUsername());
+        }
     }
 
+    public void showTasks(){
+        System.out.println("Tasks: ");
+        for (Task task : taskList) {
+            System.out.println("1. " + task.getName());
+        }
+    }
+
+    public void showData(){
+        System.out.println("===========================================");
+        System.out.println("Name: " + name);
+        System.out.println("Description: " + description);
+        System.out.println("Created date: " + creationDate);
+        System.out.println("Deadline: " + deadline);
+        showInvolvedMembers();
+        showTasks();
+        System.out.println("===========================================");
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -87,17 +142,4 @@ public class Project {
         return taskList;
     }
 
-    public void showInvolvedMembers(){
-        System.out.println("Members: ");
-        for (User member : involvedMembers) {
-            System.out.println("1. " + member.getUsername());
-        }
-    }
-
-    public void showTasks(){
-        System.out.println("Tasks: ");
-        for (Task task : taskList) {
-            System.out.println("1. " + task.getName());
-        }
-    }
 }

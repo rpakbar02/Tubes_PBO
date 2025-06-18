@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class Admin extends Role{
+public class Admin extends Role implements AdmPrivilege{
     public Admin() {
         id = UUID.randomUUID();
         role = "Admin";
