@@ -41,10 +41,12 @@ public class Project {
             try {
                 LocalDate deadline = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                 if(deadline.isBefore(creationDate)) throw new DeadlineIsBeforeCreation();
-                Task task = new Task(taskName, taskDescription, deadline);
-                taskList.add(task);
+                else{
+                    safe = false;
+                    Task task = new Task(taskName, taskDescription, deadline);
+                    taskList.add(task);
+                }
             } catch (DeadlineIsBeforeCreation e) {
-                safe = e.isError();
                 System.out.println(e.getMessage());
             }
         }
@@ -58,6 +60,7 @@ public class Project {
             involvedMembers.add(user);
             user.addProject(project);
             System.out.println(user.getUsername() + " has been added to " + project.getName());
+            System.out.println("Member added successfully!");
         }catch(MemberIsAlreadyInProject e){
             System.out.println(e.getMessage());
         }
@@ -73,6 +76,7 @@ public class Project {
             involvedMembers.remove(user);
             user.removeProject(project);
             System.out.println(user.getUsername() + " has been removed from " + project.getName());
+            System.out.println("Member removed successfully!");
         }catch(MemberNotFound e){
             System.out.println(e.getMessage());
         }

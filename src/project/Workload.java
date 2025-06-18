@@ -25,10 +25,11 @@ public class Workload {
     }
 
     public void viewWorkload(){
-        System.out.println("ID: " + this.id.toString()  + "\nEstimated Hours: " + this.estHours + "\nSubtasks Assigned: ");
+        System.out.println("Estimated Hours: " + this.estHours + "\nSubtasks Assigned: ");
         for(Subtask subtask : job) {
             System.out.println("1. " + subtask.getTitle());
         }
+        System.out.print("\n");
     }
 
     public int getEstHours() {

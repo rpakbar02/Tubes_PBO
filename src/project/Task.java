@@ -112,8 +112,8 @@ public class Task {
 
     public void viewSubtask() {
         System.out.println("Subtasks: ");
-        for (Subtask card : cards) {
-            System.out.println("1. " + card.getTitle());
+        for (int i = 0; i < cards.size(); i++) {
+            System.out.println((i + 1) + ". " + cards.get(i).getTitle());
         }
         Scanner input = new Scanner(System.in);
         System.out.print("Which subtask do you want to view: ");
@@ -123,8 +123,8 @@ public class Task {
 
     public void viewReport(){
         System.out.println("Reports reported by: ");
-        for (ProgressReport report : reports) {
-            System.out.println("1. " + report.getReportedBy().getUsername());
+        for(int i = 0; i < reports.size(); i++){
+            System.out.println((i + 1) + ". " + reports.get(i).getReportedBy().getUsername());
         }
         Scanner input = new Scanner(System.in);
         System.out.print("Who's report do you want to view: ");
@@ -134,8 +134,8 @@ public class Task {
 
     public void viewWorkload(){
         System.out.println("Workloads: ");
-        for (Workload workload : workloads) {
-            System.out.println("1. " + workload.getAssignedTo().getUsername());
+        for (int i = 0; i < workloads.size(); i++) {
+            System.out.println((i + 1) + ". " + workloads.get(i).getAssignedTo().getUsername());
         }
         Scanner input = new Scanner(System.in);
         System.out.print("Who's workload do you want to view: ");

@@ -99,14 +99,15 @@ public class User {
         System.out.print("Enter project description: ");
         String description = input.nextLine();
         LocalDate creationDate = LocalDate.now();
-        System.out.print("Enter project deadline (DD-MM-YYYY): ");
         boolean safe = true;
         while(safe){
             try {
+                System.out.print("Enter project deadline (DD-MM-YYYY): ");
                 LocalDate deadline = LocalDate.parse(input.nextLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                 if(deadline.isBefore(creationDate)) throw new DeadlineIsBeforeCreation();
                 Project project = new Project(name, description, creationDate, deadline);
                 project.addMember(this, project);
+                safe = false;
             } catch (DeadlineIsBeforeCreation e) {
                 safe = e.isError();
                 System.out.println(e.getMessage());

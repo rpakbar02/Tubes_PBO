@@ -41,9 +41,10 @@ public class Manager extends Role {
                     break;
                 case 3:
                     proj.showData();
-                    System.out.println("1. Manage task\n2. Exit");
-                    int pilihan = input.nextInt();
+                    int pilihan = 0;
                     while(pilihan != 1 && pilihan != 2){
+                        System.out.println("1. Manage task\n2. Exit");
+                        pilihan = input.nextInt();
                         switch (pilihan) {
                             case 1:
                                 System.out.println("Please choose a task to view: ");
@@ -112,7 +113,6 @@ public class Manager extends Role {
             switch(option){
                 case 1:
                     proj.addMember(user, proj);
-                    System.out.println("Member added successfully!");
                     break;
                 case 2:
                     boolean found = false;
@@ -126,7 +126,6 @@ public class Manager extends Role {
                         break;
                     }
                     proj.removeMember(user, proj);
-                    System.out.println("Member removed successfully!");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");

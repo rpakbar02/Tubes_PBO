@@ -38,7 +38,6 @@ public class ProgressReport {
     }
 
     public void viewReport(){
-        System.out.println("Report ID: " + id);
         System.out.println("Report Content: " + content);
         System.out.println("Report Date: " + date);
         System.out.println("Hours Spent: " + hoursSpent);
